@@ -1,1 +1,43 @@
-<p>emoji-navigate works!</p>
+<nav class="navbar navbar-light bg-light ">
+  <div class="container-fluid">
+    <dev [ngSwitch]="type">
+      <a *ngSwitchCase="'all'"  class="navbar-brand">Все</a>
+      <a *ngSwitchCase="'favourite'" class="navbar-brand">Избранные</a>
+      <a *ngSwitchCase="'deleted'" class="navbar-brand">Удаленные</a>
+    </dev>
+    <div class="d-flex">
+      <input class="form-control mr-2" #searchInput (change)="setSearch(searchInput.value)" type="search" placeholder="Название" aria-label="Search">
+      <button class="btn btn-outline-success" (click)="setSearch(searchInput.value)">Поиск</button>
+    </div>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-2 ">
+    <div class="nav flex-column nav-pills" role="tablist">
+      <a class="nav-link active" data-toggle="pill" id="v-pills-all-tab" href="#v-pills-all"
+         role="tab" aria-controls="v-pills-all" aria-selected="true"
+        (click)="setTypeList('all')">Все</a>
+      <a class="nav-link" data-toggle="pill" id="v-pills-favourite-tab" href="#v-pills-favourite"
+         role="tab" aria-controls="v-pills-favourite" aria-selected="false"
+         (click)="setTypeList('favourite')">Избранные</a>
+      <a class="nav-link" data-toggle="pill" id="v-pills-deleted-tab" href="#v-pills-deleted"
+         role="tab" aria-controls="v-pills-deleted" aria-selected="false"
+         (click)="setTypeList('deleted')">Удаленные</a>
+    </div>
+  </div >
+  <div class="col-9">
+    <div class="tab-content">
+      <app-emoji-card
+        *ngFor="let emoji of emojies"
+        [type] = "type"
+        [emoji]="emoji"
+        [blackList]="blackList"
+        [whiteList]="whiteList"
+      ></app-emoji-card>
+      <div style="display: none;">{{runChangeDetection}}</div>
+    </div>
+    <div class="">
+      <button type="button" (click)="setPagination()" class="btn btn-primary">Еще</button>
+    </div>
+  </div>
+</div>

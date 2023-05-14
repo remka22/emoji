@@ -5,16 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { EmojiCardComponent } from './components/emoji-card/emoji-card.component';
 import { EmojiNavigateComponent } from './components/emoji-navigate/emoji-navigate.component';
 import { EmojiComponent } from './page/emoji/emoji.component';
+import { HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
     EmojiCardComponent,
     EmojiNavigateComponent,
-    EmojiComponent
+    EmojiComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [EmojiComponent]
