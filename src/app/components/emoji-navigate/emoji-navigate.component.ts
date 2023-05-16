@@ -1,14 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IEmoji} from "../../models/IEmoji";
 import {EmojiService} from "../../services/emoji.service";
-import {emojies} from "../../data/emojies";
-import {delay, Observable} from "rxjs";
 
 @Component({
   selector: 'app-emoji-navigate',
   templateUrl: './emoji-navigate.component.html',
   styleUrls: ['./emoji-navigate.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmojiNavigateComponent implements OnInit{
   type: string = 'all'
@@ -19,33 +16,35 @@ export class EmojiNavigateComponent implements OnInit{
   pagination: number = 10
   search: string = ''
 
-
-  get runChangeDetection() {
-    this.setListEmoji(this.emojies)
-    console.log(this.emojies);
-    console.log(this.blackList)
-    console.log(this.whiteList)
-    return true
+  onChanged(increased:any){
+    this.setListEmoji(this.data)
+    console.log("blackList " +localStorage.getItem('blackList'))
+    console.log("whiteList " + localStorage.getItem('whiteList'))
+    if (this.emojies.length <= 5) {
+      this.setPagination()
+    }
   }
+
   constructor(private emojiService: EmojiService) {}
 
   ngOnInit() {
-    console.log('ngOnInit')
+    for (const blackEm of JSON.parse(localStorage.getItem('blackList') || '[]')) {
+      this.blackList.push(blackEm)
+    }
+    for (const whiteEm of  JSON.parse(localStorage.getItem('whiteList') || '[]')) {
+      this.whiteList.push(whiteEm)
+    }
+    // console.log(this.blackList)
     this.emojiService.getEmojies().subscribe(dataRequest => {
       for (const name in dataRequest) {
-        let status = ''
-        // if(this.blackList.includes(name)){
-        //   status = 'deleted'
-        // }
         this.data.push({
           name: name,
-          image: dataRequest[name].toString(),
-          status: status
+          image: dataRequest[name].toString()
         })
       }
       this.setListEmoji(this.data)
     })
-    console.log(this.data)
+    // console.log(this.data)
   }
 
 
@@ -63,20 +62,25 @@ export class EmojiNavigateComponent implements OnInit{
   }
 
   setListEmoji(data: IEmoji[]){
-    let listEmojies= data.filter((emoji,i)=>i<this.pagination)
-    switch (this.type){
+
+    let listEmojies = data.filter((emoji) => emoji.name.match(this.search))
+
+    switch (this.type) {
       case 'all':
-        // listEmojies = listEmojies.filter((emoji) => !emoji.status.match("deleted"))this.blackList.includes(name)
         listEmojies = listEmojies.filter((emoji) => !this.blackList.includes(emoji.name))
         break
       case 'favourite':
         listEmojies = listEmojies.filter((emoji) => this.whiteList.includes(emoji.name))
+        listEmojies.reverse()
         break
       case 'deleted':
         listEmojies = listEmojies.filter((emoji) => this.blackList.includes(emoji.name))
+        listEmojies.reverse()
         break
     }
-    listEmojies = listEmojies.filter((emoji) => emoji.name.match(this.search))
+
+    listEmojies = listEmojies.filter((emoji, i) => i < this.pagination)
+
     this.emojies = listEmojies
   }
 

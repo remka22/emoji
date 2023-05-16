@@ -1,0 +1,44 @@
+.boxImg{
+  width: 40px;
+  height: 40px;
+}
+.boxImg img{
+  width: 25px;
+  height: 25px;
+  /*border: 1px solid grey;*/
+  transition: .5s;
+}
+
+.boxImg:hover img{
+  transform: scale(4);
+
+}
+.card {
+  display: flex;
+  /* чтобы все элементы внутри выпадали на одну линию */
+}
+
+.card-content {
+  display: flex;
+  /* чтобы детали карточки и картинка с кнопкой также выстраивались на одну линию */
+  width: 100%;
+}
+
+.card-details {
+  margin: 10px;
+  /* чтобы занимал всю доступную ширину */
+}
+
+.card-image {
+  display: flex;
+  align-items: center;
+  /* чтобы занимал всю доступную ширину */
+
+  /* чтобы элементы располагались по правой стороне */
+}
+
+.card-image img {
+
+  margin: 10%;
+  /* чтобы картинка занимала всю доступную ширину */
+}

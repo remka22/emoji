@@ -1,17 +1,31 @@
-<div class="card w-75">
+<div class="card d-lg-inline-block mt-2">
   <div class="card-body">
-    <h5 class="card-title">{{emoji.name}}</h5>
-    <div class="text-center">
-      <img src="{{emoji.image}}" class="rounded" alt="...">
+      <div class="card">
+    <div class="card-content">
+      <div class="card-details">
+        <h4>{{emoji.name}}</h4>
+        <label style="max-width: 400px">{{emoji.image}}</label>
+      </div>
+      <div class="card-image">
+        <div class="boxImg m-2"><img class="boxImg" src="{{emoji.image}}" alt=""></div>
+        <div class="card-button">
+          <dev [ngSwitch]="type" >
+            <button *ngSwitchCase="'all'" type="button" (click)="setWhiteList(emoji)"
+                    [ngClass]="{
+                'btn-light': !whiteList.includes(emoji.name),
+                'btn-info': whiteList.includes(emoji.name)
+                 }"
+                    class="bi bi-star" style="border-radius: 16px; margin-right: 8px" ></button>
+            <button *ngSwitchCase="'all'" type="button" (click)="setBlackList(emoji)"
+                    class="bi bi-x-circle btn-danger" style="border-radius: 16px; margin-right: 8px"></button>
+            <button *ngSwitchCase="'favourite'" type="button" (click)="setWhiteList(emoji)"
+                    class="bi bi-x-circle btn-warning" style="border-radius: 16px; margin-right: 8px"></button>
+            <button *ngSwitchCase="'deleted'" type="button" (click)="setBlackList(emoji)"
+                    class="bi bi-arrow-up-circle btn-success"  style="border-radius: 16px; margin-right: 8px"></button>
+          </dev>
+        </div>
+      </div>
     </div>
-    <dev [ngSwitch]="type">
-      <button *ngSwitchCase="'all'" type="button" (click)="setWhiteList(emoji)" [ngClass]="{
-      'btn-primary': !whiteList.includes(emoji.name),
-      'btn-danger': whiteList.includes(emoji.name)
-      }" class="btn" >Избр</button>
-      <button *ngSwitchCase="'all'" type="button" (click)="setBlackList(emoji)" class="btn btn-primary">Удалить</button>
-      <button *ngSwitchCase="'favourite'" type="button" class="btn btn-warning">Удалить</button>
-      <button *ngSwitchCase="'deleted'" type="button" class="btn btn-danger">Восстановить</button>
-    </dev>
   </div>
+</div>
 </div>

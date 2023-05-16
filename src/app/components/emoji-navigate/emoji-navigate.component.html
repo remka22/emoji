@@ -1,43 +1,66 @@
-<nav class="navbar navbar-light bg-light ">
-  <div class="container-fluid">
-    <dev [ngSwitch]="type">
-      <a *ngSwitchCase="'all'"  class="navbar-brand">Все</a>
-      <a *ngSwitchCase="'favourite'" class="navbar-brand">Избранные</a>
-      <a *ngSwitchCase="'deleted'" class="navbar-brand">Удаленные</a>
-    </dev>
-    <div class="d-flex">
-      <input class="form-control mr-2" #searchInput (change)="setSearch(searchInput.value)" type="search" placeholder="Название" aria-label="Search">
-      <button class="btn btn-outline-success" (click)="setSearch(searchInput.value)">Поиск</button>
+<body>
+<nav class="my_navbar">
+  <div class="container" >
+    <div class="my_navbar-wrap">
+      <div class="col-3 justify-content-start mt-2">
+        <label class="my_brand">Emoji</label>
+      </div>
+      <ul class="my_navbar-menu mt-2">
+        <li><input class="form-control" #searchInput (change)="setSearch(searchInput.value)"
+                   type="search" placeholder="Название" aria-label="Search" style="background: lightsteelblue; width: 300px"></li>
+        <li><a href="#" class="button" (click)="setSearch(searchInput.value)">
+          <span class="button_line button_line-top"></span>
+          <span class="button_line button_line-bottom"></span>
+          <span class="button_line button_line-left"></span>
+          <span class="button_line button_line-right"></span>
+          Поиск</a></li>
+      </ul>
     </div>
   </div>
 </nav>
-<div class="row">
-  <div class="col-2 ">
+<div class="row d-flex justify-content-center">
+  <div class="col-2 d-flex justify-content-center">
     <div class="nav flex-column nav-pills" role="tablist">
-      <a class="nav-link active" data-toggle="pill" id="v-pills-all-tab" href="#v-pills-all"
-         role="tab" aria-controls="v-pills-all" aria-selected="true"
-        (click)="setTypeList('all')">Все</a>
-      <a class="nav-link" data-toggle="pill" id="v-pills-favourite-tab" href="#v-pills-favourite"
-         role="tab" aria-controls="v-pills-favourite" aria-selected="false"
-         (click)="setTypeList('favourite')">Избранные</a>
-      <a class="nav-link" data-toggle="pill" id="v-pills-deleted-tab" href="#v-pills-deleted"
-         role="tab" aria-controls="v-pills-deleted" aria-selected="false"
-         (click)="setTypeList('deleted')">Удаленные</a>
+      <a href="#" class="button" [ngClass]="{'my_active': type=='all'}" (click)="setTypeList('all')">
+        <span class="button_line button_line-top"></span>
+        <span class="button_line button_line-bottom"></span>
+        <span class="button_line button_line-left"></span>
+        <span class="button_line button_line-right"></span>
+        Все</a>
+      <a href="#" class="button" [ngClass]="{'my_active': type=='favourite'}" (click)="setTypeList('favourite')">
+        <span class="button_line button_line-top"></span>
+        <span class="button_line button_line-bottom"></span>
+        <span class="button_line button_line-left"></span>
+        <span class="button_line button_line-right"></span>
+        Избранные</a>
+      <a href="#" class="button" [ngClass]="{'my_active': type=='deleted'}" (click)="setTypeList('deleted')">
+        <span class="button_line button_line-top"></span>
+        <span class="button_line button_line-bottom"></span>
+        <span class="button_line button_line-left"></span>
+        <span class="button_line button_line-right"></span>
+        Удаленные</a>
     </div>
   </div >
-  <div class="col-9">
-    <div class="tab-content">
-      <app-emoji-card
+  <div class="col">
+    <div class="tab-content m-3" >
+      <app-emoji-card (onChanged)="onChanged($event)"
         *ngFor="let emoji of emojies"
         [type] = "type"
         [emoji]="emoji"
         [blackList]="blackList"
         [whiteList]="whiteList"
       ></app-emoji-card>
-      <div style="display: none;">{{runChangeDetection}}</div>
     </div>
-    <div class="">
-      <button type="button" (click)="setPagination()" class="btn btn-primary">Еще</button>
+    <div class="col-9 d-flex justify-content-center">
+<!--      <button type="button" *ngIf="emojies.length != 0" (click)="setPagination()" class="btn btn-primary">Показать еще...</button>-->
+      <a href="#" style="margin-bottom: 8px; text-transform: lowercase; font-size: 16px"
+         class="button" *ngIf="emojies.length != 0" (click)="setPagination()">
+        <span class="button_line button_line-top"></span>
+        <span class="button_line button_line-bottom"></span>
+        <span class="button_line button_line-left"></span>
+        <span class="button_line button_line-right"></span>
+        Показать еще...</a>
     </div>
   </div>
 </div>
+</body>
